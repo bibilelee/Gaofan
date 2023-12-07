@@ -12,6 +12,7 @@ on:
         description: '服务名称'
       tag_name:
         description: '镜像tag'
+      
 
 #   push:
 #     paths:
