@@ -1,0 +1,45 @@
+name: 拉取固定cpu架构镜像到本地
+
+on:
+  workflow_dispatch:     
+    inputs:
+      oldimage_name:
+        description: '镜像名称'
+      imges_url:
+        description: '镜像仓库'
+        default: 'Gaofan'
+      server_name:
+        description: '服务名称'
+      tag_name:
+        description: '镜像tag'
+      cpu_arch:
+        description: '默认x86'
+        default: 'amd64'
+        
+jobs:
+  build:
+    runs-on: EulerOS 2.0
+    steps:
+    - uses: actions/checkout@v2
+    - name: 拉取镜像并下载到本地
+      run: |
+        if [[ "${{ github.event.inputs.cpu_arch }}" == "amd64" ]]; then
+               cpu_arch="amd64"
+          elif [[ "${{ github.event.inputs.cpu_arch }}" == "arm64" ]]; then
+              cpu_arch="arm64"
+        fi
+        for i in ${{ github.event.inputs.oldimage_name }};
+        do 
+          docker info
+          echo "docker pull $i --platform=${cpu_arch}"
+          docker pull $i --platform=${cpu_arch}
+          name=`echo $i | awk -F ':' '{print $1}'|awk -F '/' '{print $NF}'`
+          docker save $i -o $name.tar 
+        done
+        mkdir artifacts
+        mv *.tar artifacts/
+    # - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
+      with: 
+        name: artifacts
+        path:  artifacts/*
