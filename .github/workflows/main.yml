@@ -7,7 +7,7 @@ on:
         description: '镜像名称'
       imges_url:
         description: '镜像仓库'
-        default: 'test'
+        default: 'Gaofan'
       server_name:
         description: '服务名称'
       tag_name:
