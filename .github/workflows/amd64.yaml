@@ -7,7 +7,7 @@ on:
         description: '镜像名称'
       imges_url:
         description: '镜像仓库'
-        default: 'Gaofan'
+        default: 'test'
       server_name:
         description: '服务名称'
       tag_name:
@@ -18,7 +18,7 @@ on:
         
 jobs:
   build:
-    runs-on: EulerOS 2.0
+    runs-on: eulerOS 2.0
     steps:
     - uses: actions/checkout@v2
     - name: 拉取镜像并下载到本地
